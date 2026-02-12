@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>💝 Be My Valentine? 💝</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 40px 30px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 90%;
+            width: 400px;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #e91e63;
+            margin-bottom: 10px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .heart {
+            font-size: 3.5em;
+            margin: 15px 0;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            10%, 30% { transform: scale(1.1); }
+            20% { transform: scale(0.95); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .question {
+            font-size: 1.5em;
+            color: #333;
+            margin: 20px 0 30px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 18px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .yes-btn:active {
+            transform: scale(0.95);
+        }
+
+        .no-btn {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #666;
+        }
+
+        .no-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Celebration overlay - FIXED FOR MOBILE */
+        .celebration {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #e91e63 0%, #f06292 100%);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .celebration.active {
+            display: flex !important;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .celebration h2 {
+            font-size: 2.5em;
+            color: white;
+            margin-bottom: 20px;
+            animation: bounceIn 1s ease;
+            text-align: center;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .celebration-content {
+            animation: slideUp 1s ease 0.3s backwards;
+            text-align: center;
+        }
+
+        .celebration p {
+            font-size: 1.5em;
+            color: white;
+            margin: 10px 0;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Dog with tag - IMPROVED */
+        .dog-container {
+            margin: 30px 0;
+            animation: dogJump 0.8s ease 1s backwards;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        @keyframes dogJump {
+            0% { transform: translateY(100px); opacity: 0; }
+            60% { transform: translateY(-20px); }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .dog {
+            font-size: 6em;
+            display: block;
+            line-height: 1;
+        }
+
+        .dog-tag {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #8B4513;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.8em;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 4px solid #DAA520;
+            animation: tagSwing 2s ease-in-out infinite;
+            transform-origin: center;
+            display: inline-block;
+        }
+
+        @keyframes tagSwing {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        /* Message button */
+        .message-btn {
+            background: white;
+            color: #e91e63;
+            padding: 20px 40px;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 30px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            animation: slideUp 1s ease 1.5s backwards;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .message-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            animation: confetti-fall 3s linear forwards;
+            z-index: 10000;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Sad response */
+        .sad-response {
+            display: none;
+            margin-top: 20px;
+            font-size: 4em;
+            animation: shake 0.5s ease;
+        }
+
+        .sad-response.active {
+            display: block;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+            h1 { font-size: 1.8em; }
+            .question { font-size: 1.3em; }
+            button {
+                padding: 15px 30px;
+                font-size: 1.1em;
+                width: 100%;
+                max-width: 200px;
+            }
+            .celebration h2 { font-size: 2em; }
+            .celebration p { font-size: 1.2em; }
+            .dog { font-size: 4.5em; }
+            .dog-tag { font-size: 1.4em; padding: 8px 20px; }
+            .message-btn {
+                font-size: 1.1em;
+                padding: 18px 35px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .celebration h2 { font-size: 1.8em; }
+            .dog { font-size: 4em; }
+            .dog-tag { font-size: 1.2em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💝 Valentine's Day 💝</h1>
+        <div class="heart">❤️</div>
+        <p class="question">Hughes, will you be my Valentine?</p>
+        <div class="buttons">
+            <button class="yes-btn" onclick="sayYes()">YES! 💕</button>
+            <button class="no-btn" onclick="sayNo()">No</button>
+        </div>
+        <div class="sad-response" id="sadResponse">👎😢</div>
+    </div>
+
+    <!-- Celebration overlay -->
+    <div class="celebration" id="celebration">
+        <div class="celebration-content">
+            <h2>🎉 YAAAY! 🎉</h2>
+            <p>We're so happy! 💖✨</p>
+            <div class="dog-container">
+                <div class="dog">🐶</div>
+                <div class="dog-tag">BEAU</div>
+            </div>
+            <p style="font-size: 1.3em;">Beau is celebrating too! 🦴</p>
+            <p style="margin-top: 15px; font-size: 2em;">💑💕🌹</p>
+
+            <!-- Text message button -->
+            <a href="sms:?&body=I%20said%20YES!%20%F0%9F%92%95%20-Hughes" class="message-btn">
+                Let him know! 📱
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function sayYes() {
+            const celebration = document.getElementById('celebration');
+
+            // Force show celebration - multiple methods for compatibility
+            celebration.style.display = 'flex';
+            celebration.classList.add('active');
+
+            // Prevent scrolling on main body
+            document.body.style.overflow = 'hidden';
+
+            // Create confetti
+            for (let i = 0; i < 150; i++) {
+                setTimeout(() => {
+                    createConfetti();
+                }, i * 30);
+            }
+
+            // Vibrate if supported (mobile)
+            if (navigator.vibrate) {
+                navigator.vibrate([200, 100, 200]);
+            }
+        }
+
+        function sayNo() {
+            const sadResponse = document.getElementById('sadResponse');
+            sadResponse.classList.add('active');
+
+            // Hide buttons temporarily
+            document.querySelector('.buttons').style.opacity = '0.3';
+
+            // Vibrate if supported
+            if (navigator.vibrate) {
+                navigator.vibrate(200);
+            }
+
+            // Reset after animation
+            setTimeout(() => {
+                sadResponse.classList.remove('active');
+                document.querySelector('.buttons').style.opacity = '1';
+            }, 2000);
+        }
+
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.top = '-10px';
+            confetti.style.animationDelay = Math.random() * 0.5 + 's';
+            confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+            document.body.appendChild(confetti);
+
+            setTimeout(() => {
+                confetti.remove();
+            }, 3000);
+        }
+
+        // Prevent zoom on double tap (iOS)
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>
